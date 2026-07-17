@@ -87,7 +87,7 @@ export default function Navigation() {
 
             <Link href="/" className="logo" aria-label="Pokémon Center home" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <span>Pokémon</span><span style={{ color: 'var(--accent-primary)' }}> Center</span>
-              <span style={{ fontSize: 18 }}>🇨🇦</span>
+              <img src="/images/canada-flag.svg" alt="Canada Flag" style={{ width: 22, height: 15, borderRadius: 2, objectFit: 'cover', border: '1px solid #eaeaea' }} />
             </Link>
 
             <nav className="nav-links" aria-label="Main navigation">
@@ -270,7 +270,7 @@ export default function Navigation() {
             style={{ display: 'flex', alignItems: 'center', gap: 6 }}
           >
             <span>Pokémon</span><span style={{ color: 'var(--accent-primary)' }}> Center</span>
-            <span style={{ fontSize: 18 }}>🇨🇦</span>
+            <img src="/images/canada-flag.svg" alt="Canada Flag" style={{ width: 22, height: 15, borderRadius: 2, objectFit: 'cover', border: '1px solid #eaeaea' }} />
           </Link>
           <button
             type="button"
