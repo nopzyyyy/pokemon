@@ -8,7 +8,7 @@ import { useAuth } from '@/context/AuthContext';
 import { formatMoney } from '@/lib/currency';
 
 export default function Navigation() {
-  const { cart, currency, setCurrency, updateQuantity, removeFromCart, getCartSubtotal } = useCart();
+  const { cart, currency, setCurrency, updateQuantity, removeFromCart, getCartSubtotal, toast } = useCart();
   const { user, logout } = useAuth();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -356,6 +356,14 @@ export default function Navigation() {
           )}
         </div>
       </aside>
+
+      {/* Global Cart Toast */}
+      {toast?.show && (
+        <div className="cart-toast" role="status" aria-live="polite">
+          <span className="toast-check" aria-hidden="true" />
+          {toast.message}
+        </div>
+      )}
     </>
   );
 }

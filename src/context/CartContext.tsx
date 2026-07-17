@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { convertCadToUsd } from '@/lib/currency';
 
 export interface CartItem {
@@ -34,6 +34,8 @@ interface CartContextType {
   getCartSubtotal: () => number;
   getDiscountAmount: () => number;
   getCartTotal: () => number;
+  toast: { show: boolean; message: string };
+  showToast: (message: string) => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -42,6 +44,18 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [currency, setCurrencyState] = useState<'USD' | 'CAD'>('CAD'); // CAD as default matching currency picker
   const [appliedCoupon, setAppliedCoupon] = useState<Coupon | null>(null);
+  const [toast, setToast] = useState<{ show: boolean; message: string }>({ show: false, message: '' });
+  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const showToast = (message: string) => {
+    if (toastTimer.current) {
+      clearTimeout(toastTimer.current);
+    }
+    setToast({ show: true, message });
+    toastTimer.current = setTimeout(() => {
+      setToast({ show: false, message: '' });
+    }, 2200);
+  };
 
   // Load cart and currency from localStorage on mount
   useEffect(() => {
@@ -102,6 +116,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         vendor: product.vendor
       }];
     });
+    showToast('Added to cart');
   };
 
   const removeFromCart = (productId: string) => {
@@ -197,6 +212,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         getCartSubtotal,
         getDiscountAmount,
         getCartTotal,
+        toast,
+        showToast,
       }}
     >
       {children}

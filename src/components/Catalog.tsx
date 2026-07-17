@@ -40,6 +40,10 @@ function ProductCard({ product }: { product: Product }) {
   const handleAddToCart = async () => {
     if (isSoldOut || addState === 'loading') return;
 
+    if (resetTimer.current) {
+      clearTimeout(resetTimer.current);
+    }
+
     setAddState('loading');
     await new Promise((resolve) => setTimeout(resolve, 380));
     addToCart({
@@ -116,12 +120,6 @@ function ProductCard({ product }: { product: Product }) {
           {addState === 'loading' && <span className="button-spinner" aria-hidden="true" />}
           {isSoldOut ? 'Out of stock' : addState === 'loading' ? 'Adding' : addState === 'added' ? 'Added' : 'Add to cart'}
         </button>
-        {addState === 'added' && (
-          <div className="cart-toast" role="status" aria-live="polite">
-            <span className="toast-check" aria-hidden="true" />
-            Added to cart
-          </div>
-        )}
       </div>
     </article>
   );
